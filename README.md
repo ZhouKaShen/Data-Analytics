@@ -6,10 +6,11 @@ Projeto Baseado em Problemas (PjBL) da disciplina de **Data Analytics — PUCPR*
 
 Na era híbrida da Fórmula 1 (2014–2025), quanto do resultado de uma corrida depende do carro, do piloto, da estratégia e da confiabilidade? E o regulamento de 2022 mudou esse equilíbrio?
 
-O repositório tem duas entregas, no mesmo notebook:
+O repositório tem três entregas, no mesmo notebook:
 
 - **RA1 — Ingestão e preparação dos dados:** download, diagnóstico de qualidade (Q1–Q14), limpeza justificada (D1–D13) e um conjunto de dados validado.
 - **RA2 — Processamento em streaming:** Spark Structured Streaming com chegada simulada de voltas e uma janela *tumbling* de 5 minutos (tempo médio de volta por piloto).
+- **RA3 — Análise estatística, visualização e Machine Learning:** estatística descritiva, 9 gráficos com interpretação, discussão de representatividade e uma árvore de decisão que prevê se o piloto termina nos pontos.
 
 ## Perguntas analíticas
 
@@ -21,13 +22,13 @@ O repositório tem duas entregas, no mesmo notebook:
 | P4 | Como a taxa de abandono por falha mecânica evoluiu por equipe, e equipes menos confiáveis perderam posições no campeonato por isso? |
 | P5 | Quanto o ritmo de volta se degrada ao longo de um stint e essa degradação varia entre circuitos? |
 
-No RA1, as perguntas são apenas definidas. As respostas ficam para os próximos RAs.
+No RA1, as perguntas são apenas definidas. As respostas estão no RA3 (seções 15 e 18 do notebook).
 
 ## Estrutura
 
 ```
 ├── notebooks/
-│   └── pjbl_f1.ipynb          # notebook executado (RA1 + RA2)
+│   └── pjbl_f1.ipynb          # notebook executado (RA1 + RA2 + RA3)
 ├── docs/
 │   ├── RA1_Documentacao_F1.docx   # documentação do RA1 no template da disciplina
 │   └── pjbl_f1.pdf                # notebook executado no Colab, em PDF
@@ -53,7 +54,8 @@ Os dados não ficam no repositório: o notebook baixa e gera tudo em `/content/d
    - a seção 2.1 deve mostrar o download do dataset e **"9 arquivos em data/raw"**;
    - a seção 5.4 deve imprimir **"Todas as validações passaram"**;
    - `/content/data/processed/` deve ter os 4 CSVs (painel **Arquivos**, à esquerda);
-   - a seção 11 deve mostrar 4 tabelas do streaming, uma após cada lote.
+   - a seção 11 deve mostrar 4 tabelas do streaming, uma após cada lote;
+   - as seções 14 e 15 devem mostrar os Gráficos 1 a 7, e a seção 17.5 a tabela de métricas e os Gráficos 8 e 9.
 
 Os arquivos de `/content/` são apagados quando a sessão do Colab termina. Para gerar tudo de novo, basta executar o notebook outra vez.
 
@@ -65,6 +67,22 @@ Os arquivos de `/content/` são apagados quando a sessão do Colab termina. Para
 | `data/processed/classificacao_limpo.csv` | um piloto na classificação de uma corrida | 5.089 × 8 |
 | `data/processed/pit_stops_limpo.csv` | uma parada | 9.181 × 7 |
 | `data/processed/voltas_limpo.csv` | uma volta de um piloto | 274.801 × 7 |
+
+## RA3 — técnicas utilizadas
+
+| Técnica | Para quê | Seção |
+|---|---|---|
+| Média, mediana, quartis, desvio-padrão e amplitude | Tendência central e dispersão das posições ganhas e da duração dos pit stops | 14.1 |
+| Tabela de frequência e histogramas | Distribuição das formas de terminar a corrida, das posições ganhas e das paradas | 14.2 |
+| Correlação de Spearman por corrida | P1: quanto a largada determina a chegada, por circuito e período | 15.1 |
+| Comparação entre companheiros de equipe | P2: desempenho do piloto com o mesmo carro | 15.2 |
+| Medianas por grupo e boxplot | P3: número e momento das paradas × posições ganhas | 15.3 |
+| Taxas por ano e equipe, correlação de Spearman | P4: confiabilidade e pontos (2014–2024; 2025 não informa a causa dos abandonos) | 15.4 |
+| Numeração de stints e mediana da diferença de tempo | P5: ritmo ao longo do stint | 15.5 |
+| Discussão de censo, abrangência e vieses | Amostragem e representatividade | 16 |
+| Árvore de decisão (classificação), treino 2014–2023 e teste 2024–2025, acurácia, precisão, revocação, F1, matriz de confusão | Prever se o piloto termina nos pontos e comparar com regras simples | 17 |
+
+As bibliotecas do RA3 (matplotlib e scikit-learn) já vêm instaladas no Colab.
 
 ## Fonte dos dados e versão
 
